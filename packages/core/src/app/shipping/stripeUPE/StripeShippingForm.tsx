@@ -118,6 +118,7 @@ class StripeShippingForm extends PureComponent<
                 </Fieldset>
 
                 <ShippingFormFooter
+                    renderFooter={true}
                     cartHasChanged={cartHasChanged}
                     isLoading={isLoading || isUpdatingShippingData}
                     isMultiShippingMode={false}

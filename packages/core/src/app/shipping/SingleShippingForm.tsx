@@ -62,6 +62,8 @@ export interface SingleShippingFormProps {
         address: Partial<Address>,
         options?: RequestOptions<CheckoutParams>,
     ): Promise<CheckoutSelectors>;
+    renderForm: Boolean;
+    renderFooter: Boolean;
 }
 
 export interface SingleShippingFormValues {
@@ -140,6 +142,8 @@ class SingleShippingForm extends PureComponent<
             values: { shippingAddress: addressForm },
             isShippingStepPending,
             useFloatingLabel,
+            renderForm,
+            renderFooter,
         } = this.props;
 
         const { isResettingAddress, isUpdatingShippingData, hasRequestedShippingOptions } =
@@ -152,7 +156,7 @@ class SingleShippingForm extends PureComponent<
 
         return (
             <Form autoComplete="on">
-                <Fieldset>
+                { renderForm && <Fieldset>
                     <ShippingAddress
                         addresses={addresses}
                         consignments={consignments}
@@ -179,7 +183,7 @@ class SingleShippingForm extends PureComponent<
                             <BillingSameAsShippingField />
                         </div>
                     )}
-                </Fieldset>
+                </Fieldset> }
 
                 <ShippingFormFooter
                     cartHasChanged={cartHasChanged}
@@ -188,6 +192,7 @@ class SingleShippingForm extends PureComponent<
                     shouldDisableSubmit={this.shouldDisableSubmit()}
                     shouldShowOrderComments={shouldShowOrderComments}
                     shouldShowShippingOptions={isValid}
+                    renderFooter={renderFooter}
                 />
             </Form>
         );

@@ -15,6 +15,7 @@ export interface ShippingFormFooterProps {
     shouldShowShippingOptions?: boolean;
     shouldDisableSubmit: boolean;
     isLoading: boolean;
+    renderFooter: Boolean;
 }
 
 class ShippingFormFooter extends PureComponent<ShippingFormFooterProps> {
@@ -26,11 +27,12 @@ class ShippingFormFooter extends PureComponent<ShippingFormFooterProps> {
             shouldShowShippingOptions = true,
             shouldDisableSubmit,
             isLoading,
+            renderFooter,
         } = this.props;
 
         return (
             <>
-                <Fieldset
+                {renderFooter && <Fieldset
                     id="checkout-shipping-options"
                     legend={
                         <>
@@ -53,7 +55,7 @@ class ShippingFormFooter extends PureComponent<ShippingFormFooterProps> {
                         isUpdatingAddress={isLoading}
                         shouldShowShippingOptions={shouldShowShippingOptions}
                     />
-                </Fieldset>
+                </Fieldset> }
 
                 {shouldShowOrderComments && <OrderComments />}
 

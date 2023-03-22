@@ -25,6 +25,10 @@
     &:last-child {
         border: 0;
     }
+
+    &.checkout-step--payment:not(.active-step) .custom-functions-container {
+        display: none;
+    }
 }
 
 .checkout-view-header {
@@ -131,6 +135,7 @@
     display: flex;
     height: remCalc($checkoutStep-counter-size);
     margin-right: $checkoutStep-header-body-margin;
+    width: 100%;
 }
 
 .stepHeader-title {

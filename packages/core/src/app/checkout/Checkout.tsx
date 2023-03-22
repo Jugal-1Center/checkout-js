@@ -47,6 +47,12 @@ import mapToCheckoutProps from './mapToCheckoutProps';
 import navigateToOrderConfirmation from './navigateToOrderConfirmation';
 import withCheckout from './withCheckout';
 
+declare global {
+    interface Window {
+        isShippingEditStep: boolean;
+    }
+}
+
 const Billing = lazy(() =>
     retry(
         () =>
@@ -540,6 +546,9 @@ class Checkout extends Component<
             this.setState({ activeStepType: step.type });
         }
 
+        // Remove the active state class from the payment step
+        document.querySelector('.checkout-steps .checkout-step.checkout-step--payment')?.classList.remove('active-step');
+
         if (error) {
             clearError(error);
         }
@@ -648,6 +657,7 @@ class Checkout extends Component<
     };
 
     private handleEditStep: (type: CheckoutStepType) => void = (type) => {
+        // window.isShippingEditStep = type === 'shipping';
         this.navigateToStep(type);
     };
 

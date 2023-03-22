@@ -74,6 +74,7 @@ interface WithCheckoutPaymentProps {
     loadCheckout(): Promise<CheckoutSelectors>;
     loadPaymentMethods(): Promise<CheckoutSelectors>;
     submitOrder(values: OrderRequestBody): Promise<CheckoutSelectors>;
+    loadShippingOptions(): any;
 }
 
 interface PaymentState {
@@ -118,7 +119,8 @@ class Payment extends Component<
             onUnhandledError = noop,
             usableStoreCredit,
             defaultMethod,
-            analyticsTracker
+            analyticsTracker,
+            loadShippingOptions
         } = this.props;
 
         const { selectedMethod } = this.state;
@@ -130,7 +132,7 @@ class Payment extends Component<
         }
 
         try {
-            await loadPaymentMethods();
+            await Promise.all([loadPaymentMethods(), loadShippingOptions()]);
         } catch (error) {
             onUnhandledError(error);
         }
@@ -183,6 +185,9 @@ class Payment extends Component<
 
         const uniqueSelectedMethodId =
             selectedMethod && getUniquePaymentMethodId(selectedMethod.id, selectedMethod.gateway);
+
+        // Add the active state class on the payment step
+        document.querySelector('.checkout-steps .checkout-step.checkout-step--payment')?.classList.add('active-step');
 
         return (
             <PaymentContext.Provider value={this.getContextValue()}>
@@ -652,6 +657,7 @@ export function mapToPaymentProps({
                 : undefined,
         usableStoreCredit:
             checkout.grandTotal > 0 ? Math.min(checkout.grandTotal, customer.storeCredit || 0) : 0,
+        loadShippingOptions: checkoutService.loadShippingOptions,
     };
 }
 

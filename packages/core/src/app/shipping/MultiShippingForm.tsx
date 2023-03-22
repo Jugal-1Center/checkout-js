@@ -57,6 +57,8 @@ export interface MultiShippingFormProps {
     onSubmit(values: MultiShippingFormValues): void;
     onUnhandledError(error: Error): void;
     onUseNewAddress(address: Address, itemId: string): void;
+    renderForm: Boolean;
+    renderFooter: Boolean;
 }
 
 interface ShippableItemId {
@@ -104,6 +106,8 @@ class MultiShippingForm extends PureComponent<
             countriesWithAutocomplete,
             googleMapsApiKey,
             useFloatingLabel,
+            renderForm,
+            renderFooter
         } = this.props;
 
         const { items, itemAddingAddress, createCustomerAddressError } = this.state;
@@ -154,7 +158,7 @@ class MultiShippingForm extends PureComponent<
                 />
 
                 <Form>
-                    <ul className="consignmentList">
+                    { renderForm && <ul className="consignmentList">
                         {items.map((item) => (
                             <li key={item.key}>
                                 <ItemAddressSelect
@@ -165,7 +169,7 @@ class MultiShippingForm extends PureComponent<
                                 />
                             </li>
                         ))}
-                    </ul>
+                    </ul> }
 
                     <ShippingFormFooter
                         cartHasChanged={cartHasChanged}
@@ -176,6 +180,7 @@ class MultiShippingForm extends PureComponent<
                         shouldShowShippingOptions={
                             !hasUnassignedLineItems(consignments, cart.lineItems)
                         }
+                        renderFooter={renderFooter}
                     />
                 </Form>
             </>

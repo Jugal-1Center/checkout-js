@@ -58,6 +58,8 @@ export interface ShippingFormProps {
         address: Partial<Address>,
         options: RequestOptions<CheckoutParams>,
     ): Promise<CheckoutSelectors>;
+    renderForm: Boolean;
+    renderFooter: Boolean;
 }
 
 class ShippingForm extends Component<ShippingFormProps & WithLanguageProps> {
@@ -96,6 +98,8 @@ class ShippingForm extends Component<ShippingFormProps & WithLanguageProps> {
             updateAddress,
             isShippingStepPending,
             useFloatingLabel,
+            renderForm,
+            renderFooter,
         } = this.props;
 
         return isMultiShippingMode ? (
@@ -122,6 +126,8 @@ class ShippingForm extends Component<ShippingFormProps & WithLanguageProps> {
                 shouldShowAddAddressInCheckout={shouldShowAddAddressInCheckout}
                 shouldShowOrderComments={shouldShowOrderComments}
                 useFloatingLabel={useFloatingLabel}
+                renderForm={renderForm}
+                renderFooter={renderFooter}
             />
         ) : (
             <SingleShippingForm
@@ -149,6 +155,8 @@ class ShippingForm extends Component<ShippingFormProps & WithLanguageProps> {
                 signOut={signOut}
                 updateAddress={updateAddress}
                 useFloatingLabel={useFloatingLabel}
+                renderForm={renderForm}
+                renderFooter={renderFooter}
             />
         );
     }

@@ -7,7 +7,7 @@ import { EMPTY_ARRAY } from '../common/utility';
 import { SUPPORTED_METHODS } from '../customer';
 import { PaymentMethodId } from '../payment/paymentMethod';
 import {
-    hasSelectedShippingOptions,
+    // hasSelectedShippingOptions,
     hasUnassignedLineItems,
     itemsRequireShipping,
 } from '../shipping';
@@ -131,10 +131,11 @@ const getShippingStepStatus = createSelector(
         const hasAddress = shippingAddress
             ? isValidAddress(shippingAddress, shippingAddressFields)
             : false;
-        const hasOptions = consignments ? hasSelectedShippingOptions(consignments) : false;
+        // const hasOptions = consignments ? hasSelectedShippingOptions(consignments) : false;
         const hasUnassignedItems =
             cart && consignments ? hasUnassignedLineItems(consignments, cart.lineItems) : true;
-        const isComplete = hasAddress && hasOptions && !hasUnassignedItems;
+        // const isComplete = hasAddress && hasOptions && !hasUnassignedItems;
+        const isComplete = hasAddress && !hasUnassignedItems;
         const isRequired = itemsRequireShipping(cart, config);
 
         return {

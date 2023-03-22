@@ -8,6 +8,7 @@ import { isMobileView, MobileView } from '../ui/responsive';
 import CheckoutStepHeader from './CheckoutStepHeader';
 import CheckoutStepType from './CheckoutStepType';
 
+import CustomShippingSection from '../1C-custom/custom-shipping-section';
 export interface CheckoutStepProps {
     heading?: ReactNode;
     isActive?: boolean;
@@ -72,6 +73,15 @@ export default class CheckoutStep extends Component<CheckoutStepProps, CheckoutS
                 })}
                 ref={this.containerRef}
             >
+                {/* This renders the shipping method step in the checkout, inside the payment method step, just above the payment heading */}
+                {type?.toLowerCase().trim() == 'payment' ? 
+                    <CustomShippingSection
+                        isActive={isActive}
+                        isComplete={isComplete}
+                        type={type}
+                    />
+                    : ''
+                }
                 <div className="checkout-view-header">
                     <CheckoutStepHeader
                         heading={heading}

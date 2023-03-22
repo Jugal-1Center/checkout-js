@@ -80,6 +80,8 @@ export interface WithCheckoutShippingProps {
     updateBillingAddress(address: Partial<Address>): Promise<CheckoutSelectors>;
     updateCheckout(payload: CheckoutRequestBody): Promise<CheckoutSelectors>;
     updateShippingAddress(address: Partial<Address>): Promise<CheckoutSelectors>;
+    renderForm: Boolean;
+    renderFooter: Boolean;
 }
 
 interface ShippingState {
@@ -101,7 +103,13 @@ class Shipping extends Component<ShippingProps & WithCheckoutShippingProps, Ship
             loadShippingOptions,
             onReady = noop,
             onUnhandledError = noop,
+            // step,
+            // navigateNextStep,
+            // isBillingSameAsShipping
         } = this.props;
+
+        // !window.isShippingEditStep && step.isComplete && navigateNextStep(isBillingSameAsShipping);
+        // window.isShippingEditStep = false;
 
         try {
             await Promise.all([loadShippingAddressFields(), loadShippingOptions()]);
@@ -129,6 +137,8 @@ class Shipping extends Component<ShippingProps & WithCheckoutShippingProps, Ship
             providerWithCustomCheckout,
             step,
             useFloatingLabel,
+            renderForm,
+            renderFooter,
             ...shippingFormProps
         } = this.props;
 
@@ -165,6 +175,8 @@ class Shipping extends Component<ShippingProps & WithCheckoutShippingProps, Ship
                         shouldShowMultiShipping={shouldShowMultiShipping}
                     />
                     <ShippingForm
+                        renderForm={true}
+                        renderFooter={false}
                         {...shippingFormProps}
                         addresses={customer.addresses}
                         deinitialize={deinitializeShippingMethod}
@@ -426,6 +438,8 @@ export function mapToShippingProps({
         updateCheckout: checkoutService.updateCheckout,
         updateShippingAddress: checkoutService.updateShippingAddress,
         useFloatingLabel: isFloatingLabelEnabled(config.checkoutSettings),
+        renderForm: true,
+        renderFooter: true,
     };
 }
 
