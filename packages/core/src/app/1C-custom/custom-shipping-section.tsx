@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { withLanguage, WithLanguageProps } from '../locale';
 
 import { ShippingOptions } from '../shipping/shippingOption';
+import InfoSection from './custom-info-section';
 import { Form } from '../ui/form';
 import { TranslatedString } from '../locale';
 import CheckoutStepHeader from '../checkout/CheckoutStepHeader';
@@ -48,6 +49,7 @@ class CustomShippingSection extends Component<CheckoutStepProps, WithLanguagePro
         </Form>
 
         {/* Custom: Shipping info section */}
+        <InfoSection />
       </div>
     );
   }
