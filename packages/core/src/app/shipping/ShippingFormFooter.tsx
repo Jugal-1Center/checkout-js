@@ -57,7 +57,7 @@ class ShippingFormFooter extends PureComponent<ShippingFormFooterProps> {
                     />
                 </Fieldset> }
 
-                {shouldShowOrderComments && <OrderComments />}
+                {renderFooter && shouldShowOrderComments && <OrderComments />}
 
                 <div className="form-actions">
                     <Button

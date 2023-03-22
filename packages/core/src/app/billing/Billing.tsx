@@ -47,16 +47,37 @@ export interface WithCheckoutBillingProps {
 }
 
 class Billing extends Component<BillingProps & WithCheckoutBillingProps> {
+    constructor(props: any) {
+        super(props);
+
+        const {
+            updateAddress,
+            billingAddress,
+            customer,
+            navigateNextStep,
+            isBillingSameAsShipping,
+        } = props;
+
+        /**
+         * Update the billing address is the checkbox for isBillingSameAsShipping is checked,
+         * the billing address is empty and, atleast one address exists in the customer list.
+         **/ 
+        if (isBillingSameAsShipping && billingAddress?.address1?.trim() === '' && customer?.addresses[0]) {
+            /**
+             * Calling an asynchronus anonymous function to make sure that
+             * the response is awaited before the execution of next process.
+             */
+            (async () => {
+                await updateAddress(customer.addresses[0]);
+                navigateNextStep();
+            })();
+        }
+    }
     async componentDidMount(): Promise<void> {
         const {
           initialize,
           onReady = noop,
           onUnhandledError,
-          updateAddress,
-          billingAddress,
-          customer,
-          navigateNextStep,
-          isBillingSameAsShipping,
         } = this.props;
 
         try {
@@ -68,16 +89,6 @@ class Billing extends Component<BillingProps & WithCheckoutBillingProps> {
             }
         }
 
-        // Update the billing address
-        if (
-          isBillingSameAsShipping &&
-          billingAddress?.address1?.trim() === '' &&
-          customer.addresses[0] &&
-          !isEqualAddress(billingAddress, customer.addresses[0])
-        ) {
-          await updateAddress(customer.addresses[0]);
-          navigateNextStep();
-        }
     }
 
     render(): ReactNode {
