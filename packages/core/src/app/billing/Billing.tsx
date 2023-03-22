@@ -25,6 +25,7 @@ export interface BillingProps {
     navigateNextStep(): void;
     onReady?(): void;
     onUnhandledError(error: Error): void;
+    isBillingSameAsShipping?: boolean;
 }
 
 export interface WithCheckoutBillingProps {
@@ -47,7 +48,16 @@ export interface WithCheckoutBillingProps {
 
 class Billing extends Component<BillingProps & WithCheckoutBillingProps> {
     async componentDidMount(): Promise<void> {
-        const { initialize, onReady = noop, onUnhandledError } = this.props;
+        const {
+          initialize,
+          onReady = noop,
+          onUnhandledError,
+          updateAddress,
+          billingAddress,
+          customer,
+          navigateNextStep,
+          isBillingSameAsShipping,
+        } = this.props;
 
         try {
             await initialize();
@@ -56,6 +66,17 @@ class Billing extends Component<BillingProps & WithCheckoutBillingProps> {
             if (error instanceof Error) {
                 onUnhandledError(error);
             }
+        }
+
+        // Update the billing address
+        if (
+          isBillingSameAsShipping &&
+          billingAddress?.address1?.trim() === '' &&
+          customer.addresses[0] &&
+          !isEqualAddress(billingAddress, customer.addresses[0])
+        ) {
+          await updateAddress(customer.addresses[0]);
+          navigateNextStep();
         }
     }
 

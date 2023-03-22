@@ -104,12 +104,12 @@ class Shipping extends Component<ShippingProps & WithCheckoutShippingProps, Ship
             onReady = noop,
             onUnhandledError = noop,
             // step,
-            // navigateNextStep,
-            // isBillingSameAsShipping
+            navigateNextStep,
+            isBillingSameAsShipping
         } = this.props;
 
-        // !window.isShippingEditStep && step.isComplete && navigateNextStep(isBillingSameAsShipping);
-        // window.isShippingEditStep = false;
+        !window.isShippingEditStep && navigateNextStep(isBillingSameAsShipping);
+        window.isShippingEditStep = false;
 
         try {
             await Promise.all([loadShippingAddressFields(), loadShippingOptions()]);

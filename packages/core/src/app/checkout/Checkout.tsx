@@ -449,6 +449,7 @@ class Checkout extends Component<
 
     private renderBillingStep(step: CheckoutStepStatus): ReactNode {
         const { billingAddress } = this.props;
+        const { isBillingSameAsShipping } = this.state;
 
         return (
             <CheckoutStep
@@ -464,6 +465,7 @@ class Checkout extends Component<
                         navigateNextStep={this.navigateToNextIncompleteStep}
                         onReady={this.handleReady}
                         onUnhandledError={this.handleUnhandledError}
+                        isBillingSameAsShipping={isBillingSameAsShipping}
                     />
                 </LazyContainer>
             </CheckoutStep>
@@ -657,7 +659,7 @@ class Checkout extends Component<
     };
 
     private handleEditStep: (type: CheckoutStepType) => void = (type) => {
-        // window.isShippingEditStep = type === 'shipping';
+        window.isShippingEditStep = type === 'shipping';
         this.navigateToStep(type);
     };
 
@@ -703,6 +705,7 @@ class Checkout extends Component<
         isBillingSameAsShipping,
     ) => {
         this.setState({ isBillingSameAsShipping });
+        window.isShippingEditStep = true;
 
         if (isBillingSameAsShipping) {
             this.navigateToNextIncompleteStep();
