@@ -7,6 +7,7 @@ const InfoSection: FunctionComponent = () => {
         <a
           href="/shipping-faq"
           title="Click here for processing and transit times"
+          target="_blank"
           className="info-section-link"
         >
           Click here for processing and transit times

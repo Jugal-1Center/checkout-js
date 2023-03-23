@@ -29,24 +29,26 @@ class CustomShippingSection extends Component<CheckoutStepProps, WithLanguagePro
     return (
       <div className="custom-functions-container">
         {/* Custom: Shipping methods selection section */}
-        <div className="checkout-view-header">
-          <CheckoutStepHeader
-            heading={<TranslatedString id="shipping.shipping_method_label" />}
-            isActive={isActive}
-            isComplete={isComplete}
-            isEditable={false}
-            summary=""
-            type={type}
-          />
-        </div>
+        <section className='shipping-section-container'>
+          <div className="checkout-view-header">
+            <CheckoutStepHeader
+              heading={<TranslatedString id="shipping.shipping_method_label" />}
+              isActive={isActive}
+              isComplete={isComplete}
+              isEditable={false}
+              summary=""
+              type={type}
+            />
+          </div>
 
-        <Form autoComplete="on" className="custom-shipping-steps">
-          <ShippingOptions
-            isMultiShippingMode={false}
-            isUpdatingAddress={false}
-            shouldShowShippingOptions={true}
-          />
-        </Form>
+          <Form autoComplete="on" className="custom-shipping-steps">
+            <ShippingOptions
+              isMultiShippingMode={false}
+              isUpdatingAddress={false}
+              shouldShowShippingOptions={true}
+            />
+          </Form>
+        </section>
 
         {/* Custom: Shipping info section */}
         <InfoSection />
