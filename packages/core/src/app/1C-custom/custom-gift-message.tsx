@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect, EventHandler } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 
 import { CheckoutRequestBody, CheckoutSelectors } from '@bigcommerce/checkout-sdk';
 import { CheckoutContextProps, withCheckout } from '../checkout';
