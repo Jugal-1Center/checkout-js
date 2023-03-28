@@ -1,0 +1,25 @@
+.custom-datepicker-wrapper {
+    position: relative;
+
+    .custom-datepicker-input-wrapper {
+        cursor: pointer;
+
+        #custom-datepicker-input {
+            pointer-events: none;
+        }
+
+        & ~ .react-datepicker-wrapper {
+            height: 1px;
+            left: 0;
+            margin: 0;
+            opacity: 0;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            visibility: hidden;
+            width: 100%;
+            z-index: -1;
+        }
+    }
+}

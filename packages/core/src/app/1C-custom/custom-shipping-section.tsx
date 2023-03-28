@@ -7,6 +7,8 @@ import { Form } from '../ui/form';
 import { TranslatedString } from '../locale';
 import CheckoutStepHeader from '../checkout/CheckoutStepHeader';
 import CheckoutStepType from '../checkout/CheckoutStepType';
+import CustomShippingDateSection from './custom-shipping-date-section';
+import CustomGiftMessage from './custom-gift-message';
 
 export interface CheckoutStepProps {
   isActive?: boolean;
@@ -52,6 +54,12 @@ class CustomShippingSection extends Component<CheckoutStepProps, WithLanguagePro
 
         {/* Custom: Shipping info section */}
         <InfoSection />
+
+        {/* Custom: Shipping date section */}
+        <div className='two-cols-container'>
+          <CustomShippingDateSection />
+          <CustomGiftMessage/>
+        </div>
       </div>
     );
   }
