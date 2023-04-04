@@ -9,6 +9,12 @@ interface DateProps {
   date: null | Date;
 }
 
+declare global {
+  interface Window {
+    currentOrderComment: string;
+  }
+}
+
 export interface WithCheckoutShippingProps {
   updateCheckout(payload: CheckoutRequestBody): Promise<CheckoutSelectors>;
   checkoutService: any;
@@ -18,8 +24,9 @@ const ShippingDateSection: FunctionComponent<WithCheckoutShippingProps> = (
   props: WithCheckoutShippingProps,
 ) => {
   const getCheckout: Function = props?.checkoutService?.getState()?.data?.getCheckout;
+  window.currentOrderComment = getCheckout()?.customerMessage || '';
   
-  let currentCustomerMessage: string = getCheckout()?.customerMessage;
+  let currentCustomerMessage: string = window.currentOrderComment;
 
   if (currentCustomerMessage && currentCustomerMessage.includes('Gift Message:')) {
     currentCustomerMessage = currentCustomerMessage.split('Gift Message:')[0].trim()
@@ -67,7 +74,7 @@ const ShippingDateSection: FunctionComponent<WithCheckoutShippingProps> = (
 
   const resetDate: MouseEventHandler = () => {
     setSelectedDate({ date: null });
-    const currentCustomerMessage: string = getCheckout()?.customerMessage;
+    const currentCustomerMessage: string = window.currentOrderComment;
     const giftMessage = currentCustomerMessage.split('Gift Message:')[1] ?? '';
     const newMessage = currentCustomerMessage.includes('Gift Message:')
       ? giftMessage ? `Gift Message:\n${giftMessage.trim()}\n\n` : ''
@@ -79,7 +86,7 @@ const ShippingDateSection: FunctionComponent<WithCheckoutShippingProps> = (
   const handleClick: MouseEventHandler = () => inputElRef?.current?.input?.click();
 
   const updateOrderComment: Function = async (comment: string) => {
-    const currentCustomerMessage: string = getCheckout()?.customerMessage;
+    const currentCustomerMessage: string = window.currentOrderComment;
 
     if (currentCustomerMessage.trim() !== comment.trim()) {
       // Initiate API call and show the loader
@@ -93,7 +100,7 @@ const ShippingDateSection: FunctionComponent<WithCheckoutShippingProps> = (
 
   useEffect(() => {
     if (finalDateData?.trim()) {
-      const currentCustomerMessage = getCheckout()?.customerMessage;
+      const currentCustomerMessage = window.currentOrderComment;
       const shippingMessageToAdd = `Ship Later Date: \n${finalDateData}\n\n`;
       if (!currentCustomerMessage) {
         updateOrderComment(shippingMessageToAdd);

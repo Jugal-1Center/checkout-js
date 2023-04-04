@@ -3,6 +3,11 @@ import React, { FunctionComponent, useState } from 'react';
 import { CheckoutRequestBody, CheckoutSelectors } from '@bigcommerce/checkout-sdk';
 import { CheckoutContextProps, withCheckout } from '../checkout';
 import { LoadingOverlay } from '@bigcommerce/checkout/ui';
+declare global {
+  interface Window {
+    currentOrderComment: string;
+  }
+}
 
 export interface WithCheckoutGiftMessageProps {
   updateCheckout(payload: CheckoutRequestBody): Promise<CheckoutSelectors>;
@@ -14,7 +19,8 @@ const GiftMessageSection: FunctionComponent<WithCheckoutGiftMessageProps> = (
 ) => {
   const getCheckout: Function = props?.checkoutService?.getState()?.data?.getCheckout;
 
-  const currentCustomerMessage: String = getCheckout()?.customerMessage;
+  window.currentOrderComment = getCheckout()?.customerMessage || '';
+  const currentCustomerMessage: string = window.currentOrderComment;
 
   let messageToShow = '';
   if (
@@ -32,7 +38,7 @@ const GiftMessageSection: FunctionComponent<WithCheckoutGiftMessageProps> = (
   };
 
   const updateOrderComment: Function = async (comment: string) => {
-    const currentCustomerMessage: String = getCheckout()?.customerMessage;
+    const currentCustomerMessage: String = window.currentOrderComment;
 
     if (currentCustomerMessage.trim() !== comment.trim()) {
         // Initiate API call and show the loader
@@ -45,7 +51,7 @@ const GiftMessageSection: FunctionComponent<WithCheckoutGiftMessageProps> = (
   };
 
   const handleBlur: Function = () => {
-    const currentCustomerMessage: String = getCheckout()?.customerMessage;
+    const currentCustomerMessage: String = window.currentOrderComment;
     const messageText: string = giftMessage.length > 0 ? giftMessage.trim() : '';
     const messageToAdd: string =
       messageText.length > 200 ? messageText.split('').splice(0, 200).join('') : messageText;
